@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * A single slide of `<coto-ui-carousel>`. Fully content-projected — put
@@ -16,6 +16,7 @@ import { Component, signal } from '@angular/core';
     role: 'group',
     '[attr.aria-roledescription]': '"slide"',
   },
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: [
     `
       :host {

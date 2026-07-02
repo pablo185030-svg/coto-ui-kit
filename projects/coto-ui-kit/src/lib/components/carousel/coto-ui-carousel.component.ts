@@ -1,4 +1,4 @@
-import { Component, DestroyRef, computed, contentChildren, effect, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, computed, contentChildren, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CotoUiCarouselSlideComponent } from './coto-ui-carousel-slide.component';
 
 /**
@@ -193,6 +193,7 @@ import { CotoUiCarouselSlideComponent } from './coto-ui-carousel-slide.component
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     tabindex: '0',
     role: 'region',

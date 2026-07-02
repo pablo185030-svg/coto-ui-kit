@@ -2,26 +2,28 @@
   "name": "coto-ui-kit-workspace",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "build": "ng build coto-ui-kit",
     "build:watch": "ng build coto-ui-kit --watch",
-    "pack": "npm run build && cd dist/coto-ui-kit && npm pack",
-    "publish:lib": "npm run build && cd dist/coto-ui-kit && npm publish"
+    "pack": "yarn build && cd dist/coto-ui-kit && npm pack",
+    "publish:lib": "yarn build && cd dist/coto-ui-kit && npm publish"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^21.1.0",
-    "@angular/cli": "^21.1.0",
-    "@angular/compiler-cli": "^21.1.0",
-    "ng-packagr": "^21.0.0",
-    "typescript": "~5.9.2"
+    "@angular/build": "^22.0.5",
+    "@angular/cli": "^22.0.5",
+    "@angular/compiler-cli": "^22.0.5",
+    "ng-packagr": "^22.0.1",
+    "typescript": "~6.0.3"
   },
   "dependencies": {
-    "@angular/animations": "^21.1.0",
-    "@angular/common": "^21.1.0",
-    "@angular/compiler": "^21.1.0",
-    "@angular/core": "^21.1.0",
-    "@angular/material": "^21.1.0",
-    "@angular/platform-browser": "^21.1.0",
+    "@angular/animations": "^22.0.5",
+    "@angular/cdk": "^22.0.3",
+    "@angular/common": "^22.0.5",
+    "@angular/compiler": "^22.0.5",
+    "@angular/core": "^22.0.5",
+    "@angular/material": "^22.0.3",
+    "@angular/platform-browser": "^22.0.5",
     "rxjs": "~7.8.0",
     "sass": "^1.77.0",
     "tslib": "^2.6.0"

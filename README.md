@@ -76,8 +76,8 @@ coto-ui-kit/
 
 ```bash
 cd coto-ui-kit
-npm install
-npm run build
+yarn install
+yarn build
 # generates dist/coto-ui-kit, ready to publish/consume
 ```
 
