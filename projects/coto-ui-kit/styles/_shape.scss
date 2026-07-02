@@ -1,0 +1,31 @@
+// ============================================================================
+// Nexo's corner / shape scale (border-radius per size).
+//
+// Source: https://zeroheight.com/5afff812d/p/455df7-bienvenidoa-a-nexo
+//         (Corner) — ⚠️ this section is marked "In progress" in
+//         zeroheight (unlike Typography/Colors/Elevations, which are
+//         "Ready"). Values may change; double-check before a stable
+//         release.
+//
+// Angular Material M3 exposes the corner scale as system tokens
+// --mat-sys-corner-<size>, used by default in component shape (cards,
+// buttons, chips, etc.).
+// ============================================================================
+
+$coto-corner: (
+  none: 0px,
+  extra-small: 4px,
+  small: 8px,
+  medium: 12px,
+  large: 16px,
+  extra-large: 28px,
+  full: 9999px,
+) !default;
+
+/// Applies $coto-corner as overrides of Angular Material's shape system
+/// tokens (--mat-sys-corner-<size>).
+@mixin apply-corner($scale: $coto-corner) {
+  @each $size, $radius in $scale {
+    --mat-sys-corner-#{$size}: #{$radius};
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "coto-ui-kit",
+  "version": "0.1.0",
+  "description": "Coto Digital's design system (Material Design 3, based on the Nexo guidelines) for Angular projects: color/typography tokens, M3 theming, and shared utilities.",
+  "peerDependencies": {
+    "@angular/common": "^21.1.0",
+    "@angular/core": "^21.1.0",
+    "@angular/material": "^21.1.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

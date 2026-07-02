@@ -1,0 +1,51 @@
+// ============================================================================
+// Nexo's elevations (Angular Material as base, exact box-shadow values).
+//
+// Source: https://zeroheight.com/5afff812d/p/455df7-bienvenidoa-a-nexo
+//         (Elevations)
+//
+// Each level maps 1:1 to an Angular Material system token
+// (--mat-sys-level<N>), as indicated by zeroheight ("In Angular
+// Material: --mat-sys-level1"). The "Fill" (rgba(255,255,255,1.0))
+// documented next to each level is just the background used in
+// zeroheight's mockup, not a shadow token — it's already covered by the
+// surface roles in _color-scheme.scss (e.g. surface-container-lowest: #ffffff).
+// ============================================================================
+
+$coto-elevation: (
+  level1: (
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 2px 1px -1px rgba(0, 0, 0, 0.02)
+  ),
+  level2: (
+    0px 1px 8px 0px rgba(0, 0, 0, 0.12),
+    0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+    0px 3px 3px -2px rgba(0, 0, 0, 0.02)
+  ),
+  level3: (
+    0px 1px 18px 0px rgba(0, 0, 0, 0.12),
+    0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+    0px 3px 5px -1px rgba(0, 0, 0, 0.02)
+  ),
+  level4: (
+    0px 3px 14px 2px rgba(0, 0, 0, 0.12),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0px 5px 5px -3px rgba(0, 0, 0, 0.02)
+  ),
+  level5: (
+    0px 5px 22px 4px rgba(0, 0, 0, 0.12),
+    0px 12px 17px 2px rgba(0, 0, 0, 0.14),
+    0px 7px 8px -4px rgba(0, 0, 0, 0.02)
+  ),
+) !default;
+
+/// Applies $coto-elevation as overrides of Angular Material's elevation
+/// system tokens (--mat-sys-level1..5). Each value in the map is a list
+/// of shadows (space-separated within each shadow, comma-separated
+/// between them); Sass interpolates it directly as a valid box-shadow.
+@mixin apply-elevation($scale: $coto-elevation) {
+  @each $level, $shadow in $scale {
+    --mat-sys-#{$level}: #{$shadow};
+  }
+}

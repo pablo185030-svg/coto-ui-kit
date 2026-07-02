@@ -1,0 +1,189 @@
+// ============================================================================
+// Nexo's full M3 type scale (size, line-height, tracking, weight) per
+// level: Display ✅, Headline ✅, Title ✅, Body ✅, Label ✅.
+//
+// Source: https://zeroheight.com/5afff812d/p/455df7-bienvenidoa-a-nexo
+//         (Typography > Styles > Display/Headline/Title/Body/Label)
+//
+// Note: Label uses Poppins (weight 600), not Open Sans — Nexo departs
+// from the standard M3 mapping (which would assign "plain" to label).
+// Since we set every level explicitly via apply-type-scale(), we don't
+// depend on mat.theme()'s automatic brand/plain-family mapping for this
+// case.
+//
+// Each level maps 1:1 to an Angular Material M3 system token
+// (--mat-sys-<level>-*), as indicated by zeroheight ("In Angular
+// Material: --mat-sys-display-large"). The convention documented by
+// Material for those tokens is "-font/-line-height/-size/-tracking/
+// -weight" per level; verify against the installed @angular/material
+// version (inspect with devtools) if something doesn't take visual effect.
+// ============================================================================
+
+@use 'sass:map';
+@use 'tokens' as tokens;
+
+$coto-type-scale: (
+  display-large: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 400,
+    size: 3.5625rem,
+    // 57px
+    line-height: 4rem,
+    // 64px
+    tracking: -0.3px,
+  ),
+  display-medium: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 400,
+    size: 3.125rem,
+    // 50px
+    line-height: 3.25rem,
+    // 52px
+    tracking: 0px,
+  ),
+  display-small: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 400,
+    size: 2.25rem,
+    // 36px
+    line-height: 2.75rem,
+    // 44px
+    tracking: 0px,
+  ),
+  headline-large: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 400,
+    size: 2rem,
+    // 32px
+    line-height: 2.5rem,
+    // 40px
+    tracking: 0px,
+  ),
+  headline-medium: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 400,
+    size: 1.75rem,
+    // 28px
+    line-height: 2.25rem,
+    // 36px
+    tracking: 0px,
+  ),
+  headline-small: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 400,
+    size: 1.5rem,
+    // 24px
+    line-height: 2rem,
+    // 32px
+    tracking: 0px,
+  ),
+  title-large: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 400,
+    size: 1.375rem,
+    // 22px
+    line-height: 1.75rem,
+    // 28px
+    tracking: 0px,
+  ),
+  title-medium: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 600,
+    size: 1rem,
+    // 16px
+    line-height: 1.5rem,
+    // 24px
+    tracking: 0.1px,
+  ),
+  title-small: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 600,
+    size: 0.875rem,
+    // 14px
+    line-height: 1.25rem,
+    // 20px
+    tracking: 0.1px,
+  ),
+  body-large: (
+    family: tokens.$coto-font-family-plain,
+    // Open Sans
+    weight: 400,
+    size: 1rem,
+    // 16px
+    line-height: 1.5rem,
+    // 24px
+    tracking: 0.5px,
+  ),
+  body-medium: (
+    family: tokens.$coto-font-family-plain,
+    // Open Sans
+    weight: 400,
+    size: 0.875rem,
+    // 14px
+    line-height: 1.25rem,
+    // 20px
+    tracking: 0.3px,
+  ),
+  body-small: (
+    family: tokens.$coto-font-family-plain,
+    // Open Sans
+    weight: 400,
+    size: 0.75rem,
+    // 12px
+    line-height: 1rem,
+    // 16px
+    tracking: 0.4px,
+  ),
+  label-large: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins — note: differs from the M3 default (which uses "plain" for labels)
+    weight: 600,
+    size: 0.875rem,
+    // 14px
+    line-height: 1.25rem,
+    // 20px
+    tracking: 0.1px,
+  ),
+  label-medium: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 600,
+    size: 0.75rem,
+    // 12px
+    line-height: 1rem,
+    // 16px
+    tracking: 0.5px,
+  ),
+  label-small: (
+    family: tokens.$coto-font-family-brand,
+    // Poppins
+    weight: 600,
+    size: 0.6875rem,
+    // 11px
+    line-height: 1rem,
+    // 16px
+    tracking: 0.5px,
+  ),
+) !default;
+
+/// Applies $coto-type-scale as overrides of Angular Material's typography
+/// system tokens (--mat-sys-<level>-*), on top of what mat.theme() already
+/// defines with brand/plain family in _theme.scss.
+@mixin apply-type-scale($scale: $coto-type-scale) {
+  @each $level, $props in $scale {
+    --mat-sys-#{$level}-font: #{map.get($props, family)};
+    --mat-sys-#{$level}-weight: #{map.get($props, weight)};
+    --mat-sys-#{$level}-size: #{map.get($props, size)};
+    --mat-sys-#{$level}-line-height: #{map.get($props, line-height)};
+    --mat-sys-#{$level}-tracking: #{map.get($props, tracking)};
+  }
+}

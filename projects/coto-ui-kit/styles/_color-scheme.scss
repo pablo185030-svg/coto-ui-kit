@@ -1,0 +1,129 @@
+// ============================================================================
+// Nexo's full M3 color scheme (LIGHT mode). Each role comes straight from
+// the zeroheight/Figma export (Material Theme Builder) and maps 1:1 to an
+// Angular Material system token (--mat-sys-<role>).
+//
+// Source: https://zeroheight.com/5afff812d/p/455df7-bienvenidoa-a-nexo
+//         (Colors > Color Schemes > Light Mode)
+//
+// Unlike the seed colors in _tokens.scss (which only feed mat.theme()'s
+// generator algorithm), this map is applied AFTER as an explicit
+// override — so container/on-container/surface/outline end up exactly
+// as Nexo defined them, instead of the result of Material's HCT
+// algorithm from a seed.
+//
+// Dark mode: pending. Until Nexo's dark mode export arrives, the dark
+// theme uses the palette that Material generates automatically from the
+// seed colors in _tokens.scss (not pixel-perfect with Nexo yet).
+// ============================================================================
+
+@use 'sass:map';
+
+$coto-color-scheme-light: (
+  // --- Primary ---------------------------------------------------------
+  primary: #c41113,
+  on-primary: #ffffff,
+  primary-container: #ffdad6,
+  on-primary-container: #93000a,
+  primary-fixed: #ffdad6,
+  primary-fixed-dim: #ffb4ab,
+  on-primary-fixed: #410002,
+  on-primary-fixed-variant: #93000a,
+  inverse-primary: #ffb4ab,
+
+  // --- Secondary ---------------------------------------------------------
+  secondary: #006494,
+  on-secondary: #ffffff,
+  secondary-container: #cbe6ff,
+  on-secondary-container: #004b71,
+  secondary-fixed: #cbe6ff,
+  on-secondary-fixed: #001e30,
+  on-secondary-fixed-variant: #004b71,
+  secondary-fixed-dim: #8fcdff,
+
+  // --- Tertiary ---------------------------------------------------------
+  tertiary: #7436d1,
+  on-tertiary: #ffffff,
+  tertiary-container: #ecdcff,
+  on-tertiary-container: #5d11b9,
+  tertiary-fixed: #ecdcff,
+  on-tertiary-fixed: #270058,
+  on-tertiary-fixed-variant: #5d11b9,
+  tertiary-fixed-dim: #d5bbff,
+
+  // --- Error ---------------------------------------------------------
+  error: #ba1a1a,
+  on-error: #ffffff,
+  error-container: #ffdcd1,
+  on-error-container: #862200,
+
+  // --- Surface / Neutral ---------------------------------------------------------
+  surface-dim: #d1dbe4,
+  surface: #fafcfe,
+  surface-bright: #fafcfe,
+  surface-variant: #e6e6e6,
+  surface-container-lowest: #ffffff,
+  surface-container-low: #eef4f9,
+  surface-container: #e7eff6,
+  surface-container-high: #e1e9f0,
+  surface-container-highest: #dce3eb,
+  on-surface: #191d20,
+  on-surface-variant: #474747,
+  inverse-surface: #2a3137,
+  inverse-on-surface: #ecf1f7,
+
+  // --- Outline ---------------------------------------------------------
+  outline: #797979,
+  outline-variant: #c9c9c9,
+
+  // --- Scrim / Shadow (confirmed by Nexo) ---------------------------
+  scrim: #000000,
+  shadow: #000000,
+
+  // --- M3 aliases not explicitly provided by Nexo --------------------
+  // "background"/"on-background" were unified with surface/on-surface in
+  // M3, but Angular Material still exposes these tokens for compat;
+  // aliased here to the same value as surface/on-surface.
+  background: #fafcfe,
+  on-background: #191d20,
+) !default;
+
+// State layers (hover/focus/pressed/dragged), in rgba with the opacity
+// Nexo specifies. Angular Material computes its own state layers
+// internally and doesn't expose a simple custom property per role to
+// override them; these are kept available as our own tokens for use in
+// custom components (ripples, hovers, etc.) if exact spec matching is
+// needed.
+$coto-state-layers-light: (
+  primary-08: rgba(196, 17, 19, 0.08),
+  primary-12: rgba(196, 17, 19, 0.12),
+  primary-16: rgba(196, 17, 19, 0.16),
+  on-primary-08: rgba(255, 255, 255, 0.08),
+  on-primary-12: rgba(255, 255, 255, 0.12),
+  on-primary-16: rgba(255, 255, 255, 0.16),
+  secondary-08: rgba(0, 100, 148, 0.08),
+  secondary-12: rgba(0, 100, 148, 0.12),
+  secondary-16: rgba(0, 100, 148, 0.16),
+  on-secondary-08: rgba(255, 255, 255, 0.08),
+  on-secondary-12: rgba(255, 255, 255, 0.12),
+  on-secondary-16: rgba(255, 255, 255, 0.16),
+  tertiary-08: rgba(116, 54, 209, 0.08),
+  tertiary-12: rgba(116, 54, 209, 0.12),
+  tertiary-16: rgba(116, 54, 209, 0.16),
+  on-tertiary-08: rgba(255, 255, 255, 0.08),
+  on-tertiary-12: rgba(255, 255, 255, 0.12),
+  on-tertiary-16: rgba(255, 255, 255, 0.16),
+  on-surface-04: rgba(25, 29, 32, 0.04),
+  on-surface-08: rgba(25, 29, 32, 0.08),
+  on-surface-12: rgba(25, 29, 32, 0.12),
+  on-surface-16: rgba(25, 29, 32, 0.16),
+  on-surface-38: rgba(25, 29, 32, 0.38),
+) !default;
+
+/// Applies a color scheme (role -> hex map) as overrides of Angular
+/// Material's color system tokens (--mat-sys-<role>).
+@mixin apply-color-scheme($scheme) {
+  @each $role, $value in $scheme {
+    --mat-sys-#{$role}: #{$value};
+  }
+}

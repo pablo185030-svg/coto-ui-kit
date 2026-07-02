@@ -1,0 +1,17 @@
+// Public styles entry point. Consuming projects import ONLY this file
+// (Sass resolves the "styles" folder to this _index.scss):
+//
+//   // styles.scss in the consuming app
+//   @use 'coto-ui-kit/styles' as coto;
+//
+//   html {
+//     @include coto.theme(); // light, density 0 by default
+//   }
+//   @include coto.dark-theme();
+//
+@forward 'tokens';
+@forward 'typography';
+@forward 'color-scheme';
+@forward 'elevation';
+@forward 'shape';
+@forward 'theme';

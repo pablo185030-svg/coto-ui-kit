@@ -1,0 +1,44 @@
+// ============================================================================
+// SINGLE SOURCE OF TRUTH (SCSS) for Coto UI Kit's palette and typography
+// (based on the Nexo guidelines).
+//
+// Must mirror the same values as:
+//   projects/coto-ui-kit/src/lib/tokens/color-tokens.ts
+//   projects/coto-ui-kit/src/lib/tokens/typography-tokens.ts
+//
+// COLORS: the values below (primary/secondary/tertiary/error/neutral) are
+// Nexo's real seed hex, kept here for reference and for TS consumers
+// (color-tokens.ts). They are NOT fed into mat.theme() directly anymore —
+// Angular Material's mat.theme() requires a predefined bundled M3 palette
+// map (mat.$*-palette) for `color.primary`, not a raw hex string (see
+// _theme.scss for details). Nexo's exact LIGHT scheme, with every role/
+// container/on-color pixel-perfect, lives in `_color-scheme.scss` and is
+// applied as an override on top of mat.theme()'s structural base (see
+// `theme()` in `_theme.scss`). `neutral`/`neutral-variant` are
+// approximate (Nexo doesn't expose an explicit "neutral" seed) and are
+// currently unused until dark mode needs them.
+//
+// TYPOGRAPHY already reflects Nexo's real spec (Poppins + Open Sans).
+// ============================================================================
+
+// M3 seed colors (one per role: primary, secondary, tertiary, error, neutral)
+// Reference only — see note above.
+$coto-primary: #c41113;
+$coto-secondary: #006494;
+$coto-tertiary: #7436d1;
+$coto-error: #ba1a1a;
+// TODO(coto-ui-kit): no explicit neutral seed from Nexo; approximated
+// from on-surface (#191d20) until the real value or dark mode is available.
+$coto-neutral: #797979;
+$coto-neutral-variant: #c9c9c9;
+
+// Nexo typography:
+// - Poppins ("brand"): titles, emphasis, and labels.
+// - Open Sans ("plain"): paragraphs and long-form text.
+// Both families must be loaded from Google Fonts in each consuming app
+// (see README, "Consuming the library" section).
+$coto-font-family-brand: '"Poppins", sans-serif';
+$coto-font-family-plain: '"Open Sans", sans-serif';
+
+// Default density for all consuming projects (-5 to 0)
+$coto-density: 0;

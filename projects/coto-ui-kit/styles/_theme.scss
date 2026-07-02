@@ -1,0 +1,83 @@
+// ============================================================================
+// Coto UI Kit's M3 theme (based on the Nexo guidelines), built on top of
+// Angular Material.
+//
+// Exposes a single `coto.theme()` mixin that each consuming project
+// calls ONCE in its global styles.scss. Since colors/typography live in
+// _tokens.scss (inside this library), changing the palette here and
+// publishing a new package version updates the theme across all n
+// projects with just `npm update coto-ui-kit` — no app code changes
+// needed.
+//
+// Version note (Angular Material 21.1): mat.theme()'s `color.primary` (in
+// the nested `theme-type` form) does NOT accept a raw hex string — it
+// requires one of Material's predefined bundled M3 palettes (mat.$*-
+// palette, e.g. mat.$red-palette), which internally already bundles
+// auto-derived secondary/tertiary/neutral tones. Passing a bare hex here
+// throws "$map: #xxxxxx is not a map." from @angular/material's
+// _system.scss.
+//
+// Since we override every color role explicitly with Nexo's exact hex
+// right after (see apply-color-scheme() below), the specific bundled
+// palette picked here only matters as a structural fallback for any
+// token we haven't covered — it has no visible effect on the final
+// light theme. mat.$red-palette is used for thematic proximity to our
+// real primary red.
+// ============================================================================
+
+@use '@angular/material' as mat;
+@use 'sass:map';
+@use 'tokens' as tokens;
+@use 'typography' as typescale;
+@use 'color-scheme' as colorscheme;
+@use 'elevation' as elevationscale;
+@use 'shape' as shapescale;
+
+/// Applies Coto UI Kit's full theme (color + typography + density).
+/// @param {String} $theme-type - 'light' | 'dark'
+/// @param {Number} $density - -5 to 0 (0 = default, more negative = denser)
+@mixin theme($theme-type: light, $density: tokens.$coto-density) {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: $theme-type,
+        primary: mat.$red-palette,
+      ),
+      typography: (
+        plain-family: tokens.$coto-font-family-plain,
+        brand-family: tokens.$coto-font-family-brand,
+      ),
+      density: $density,
+    )
+  );
+
+  // Fine-grained size/line-height/tracking overrides per level (full
+  // scale: Display/Headline/Title/Body/Label). Without this, mat.theme()
+  // only applies brand/plain family but keeps Material's default sizes,
+  // not Nexo's.
+  @include typescale.apply-type-scale();
+
+  // Nexo's exact color scheme, role by role, on top of the base that
+  // mat.theme() generated from the seed colors. Nexo data only exists
+  // for LIGHT so far — dark keeps Material's generated base
+  // (approximate) until the real export is available.
+  @if $theme-type == light {
+    @include colorscheme.apply-color-scheme(colorscheme.$coto-color-scheme-light);
+  }
+
+  // Nexo's exact elevations (box-shadow), same in light and dark.
+  @include elevationscale.apply-elevation();
+
+  // Nexo's corner scale (border-radius). ⚠️ section marked "In
+  // progress" in zeroheight: review before a stable release.
+  @include shapescale.apply-corner();
+}
+
+/// Helper that exposes the dark theme under a class, useful for letting
+/// each app toggle dark mode through Angular Material (see
+/// CotoThemeService in services/theme.service.ts).
+@mixin dark-theme($density: tokens.$coto-density) {
+  .coto-dark-theme {
+    @include theme($theme-type: dark, $density: $density);
+  }
+}
