@@ -1,0 +1,49 @@
+// ============================================================================
+// SINGLE SOURCE OF TRUTH (SCSS) for Coto UI Kit's responsive breakpoints.
+// Must mirror the same values as
+// `projects/coto-ui-kit/src/lib/tokens/breakpoint-tokens.ts`.
+//
+// Mobile-first: write base styles for the smallest device first, then
+// layer overrides upward with `breakpoint-up()`. There is intentionally
+// no `breakpoint-down()` — desktop-first (max-width) queries are not
+// used in this design system.
+//
+// | Device            | Min     | Max     |
+// |--------------------|---------|---------|
+// | Mobile             | 320px   | 767px   |
+// | Tablet portrait     | 768px   | 1023px  |
+// | Tablet landscape    | 1024px  | 1365px  |
+// | Small desktop       | 1366px  | 1919px  |
+// | Large desktop       | 1920px  | ∞       |
+// ============================================================================
+
+@use 'sass:map';
+
+$coto-breakpoints: (
+  mobile: 320px,
+  tablet-portrait: 768px,
+  tablet-landscape: 1024px,
+  desktop-small: 1366px,
+  desktop-large: 1920px,
+) !default;
+
+/// Emits `@content` inside a `min-width` media query for the given
+/// breakpoint name (one of the keys in `$coto-breakpoints`).
+///
+/// Usage (mobile-first — base rules apply to `mobile` with no wrapper):
+///   .promo-slide__headline {
+///     font-size: 16px; // mobile
+///
+///     @include coto.breakpoint-up(tablet-landscape) {
+///       font-size: 22px;
+///     }
+///   }
+@mixin breakpoint-up($name, $scale: $coto-breakpoints) {
+  @if not map.has-key($scale, $name) {
+    @error "Unknown breakpoint `#{$name}`. Expected one of: #{map.keys($scale)}.";
+  }
+
+  @media (min-width: map.get($scale, $name)) {
+    @content;
+  }
+}
