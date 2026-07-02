@@ -58,11 +58,12 @@
   @include typescale.apply-type-scale();
 
   // Nexo's exact color scheme, role by role, on top of the base that
-  // mat.theme() generated from the seed colors. Nexo data only exists
-  // for LIGHT so far — dark keeps Material's generated base
-  // (approximate) until the real export is available.
+  // mat.theme() generated from the seed colors. Both light and dark are
+  // complete (see _color-scheme.scss).
   @if $theme-type == light {
     @include colorscheme.apply-color-scheme(colorscheme.$coto-color-scheme-light);
+  } @else if $theme-type == dark {
+    @include colorscheme.apply-color-scheme(colorscheme.$coto-color-scheme-dark);
   }
 
   // Nexo's exact elevations (box-shadow), same in light and dark.

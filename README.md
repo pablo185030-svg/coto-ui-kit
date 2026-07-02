@@ -12,17 +12,11 @@ typography, and theming in one place.
   scale (Display, Headline, Title, Body, Label — each with
   large/medium/small) in `styles/_typography.scss`, with exact size,
   line-height, tracking, and weight per Nexo.
-- **Colors — light mode**: ✅ complete. Full M3 scheme (primary,
-  secondary, tertiary, error, surface/neutral, outline, containers,
-  fixed variants) in `styles/_color-scheme.scss`, pixel-perfect per
-  Nexo's export.
-- **Colors — dark mode**: ⏳ pending. Nexo hasn't exported the dark
-  scheme yet; in the meantime the dark theme uses the palette Angular
-  Material generates automatically from the seed colors (not
-  pixel-perfect). Once the dark export arrives, add a
-  `$coto-color-scheme-dark` in `_color-scheme.scss` with the same
-  structure as light, and apply it in `_theme.scss` for
-  `$theme-type: dark`.
+- **Colors — light and dark mode**: ✅ both complete. Full M3 scheme
+  (primary, secondary, tertiary, error, surface/neutral, outline,
+  containers, fixed variants) in `styles/_color-scheme.scss`
+  (`$coto-color-scheme-light` and `$coto-color-scheme-dark`),
+  pixel-perfect per Nexo's export.
 - **Elevations**: ✅ complete (levels 1-5) in `styles/_elevation.scss`,
   mapped to `--mat-sys-level1`...`--mat-sys-level5`.
 - **Corner / shape** (`styles/_shape.scss`): loaded (none=0, xs=4, s=8,
@@ -173,15 +167,61 @@ From here on, every Angular Material component (buttons, inputs, cards,
 etc.) in that project automatically uses Coto UI Kit's palette, with no
 need for each app to define its own theme.
 
+## Components
+
+### `<coto-ui-carousel>`
+
+Generic, themeable carousel (promotional banners, product galleries,
+etc). Slides are content-projected via `<coto-ui-carousel-slide>` — the
+carousel only owns the mechanics (active slide, dots, arrows, autoplay,
+keyboard navigation, ARIA); slide content is entirely up to you. Colors,
+elevation, and corner radius come straight from the theme tokens
+(`--mat-sys-*`), so it matches Nexo automatically.
+
+```ts
+import { CotoUiCarouselComponent, CotoUiCarouselSlideComponent } from 'coto-ui-kit';
+
+@Component({
+  selector: 'app-promo',
+  imports: [CotoUiCarouselComponent, CotoUiCarouselSlideComponent],
+  template: `
+    <coto-ui-carousel ariaLabel="Promotions" aspectRatio="21 / 9">
+      <coto-ui-carousel-slide>
+        <!-- any markup: image, overlays, CTA buttons, price tags, etc. -->
+      </coto-ui-carousel-slide>
+      <coto-ui-carousel-slide>
+        ...
+      </coto-ui-carousel-slide>
+    </coto-ui-carousel>
+  `,
+})
+export class PromoComponent {}
+```
+
+Inputs:
+
+| Input          | Type      | Default              | Description                                    |
+| -------------- | --------- | --------------------- | ----------------------------------------------- |
+| `ariaLabel`    | `string`  | `'Carousel'`           | Accessible label for the carousel region.       |
+| `autoplayMs`   | `number`  | `6000`                | Autoplay interval; `0` disables autoplay.       |
+| `showArrows`   | `boolean` | `true`                 | Show/hide the prev/next controls.               |
+| `showDots`     | `boolean` | `true`                 | Show/hide the dot indicators.                   |
+| `dotsPosition` | `'overlay' \| 'below'` | `'overlay'` | `'overlay'` draws dots over the bottom of the image; `'below'` renders them outside it, in normal flow. |
+| `aspectRatio`  | `string`  | `'21 / 9'`             | CSS `aspect-ratio` of the slide viewport.       |
+| `prevLabel` / `nextLabel` / `dotsLabel` | `string` | (English defaults) | Override for i18n. |
+
+Behavior: autoplay pauses on hover/focus; `ArrowLeft`/`ArrowRight`
+navigate when the carousel is focused, `Home`/`End` jump to the
+first/last slide; dots use `role="tablist"`/`role="tab"` with
+`aria-selected`.
+
 ## Suggested next steps
 
-- Get Nexo's **dark** color scheme export and add it to
-  `_color-scheme.scss` (see section above; light and typography are
-  already resolved).
-- If you need custom components beyond tokens (not just Angular
-  Material with the theme applied), add a `src/lib/components/` folder
-  with standalone components and export them from `public-api.ts`.
+- Add more components as needed (cards, price tags, badges) under
+  `src/lib/components/`, following the same pattern as the carousel
+  (standalone, theme-token-driven styles), and export them from
+  `public-api.ts`.
 - Add a CI pipeline that runs `npm run build` on every release and
   automatically publishes to the private registry.
 - Consider adding Storybook to this same repo to visually document the
-  tokens and (if added) the components.
+  tokens and components.

@@ -12,9 +12,8 @@
 // as Nexo defined them, instead of the result of Material's HCT
 // algorithm from a seed.
 //
-// Dark mode: pending. Until Nexo's dark mode export arrives, the dark
-// theme uses the palette that Material generates automatically from the
-// seed colors in _tokens.scss (not pixel-perfect with Nexo yet).
+// Dark mode is complete too — see $coto-color-scheme-dark below, same
+// structure, sourced from Nexo's dark export.
 // ============================================================================
 
 @use 'sass:map';
@@ -118,6 +117,104 @@ $coto-state-layers-light: (
   on-surface-12: rgba(25, 29, 32, 0.12),
   on-surface-16: rgba(25, 29, 32, 0.16),
   on-surface-38: rgba(25, 29, 32, 0.38),
+) !default;
+
+// ============================================================================
+// Nexo's full M3 color scheme (DARK mode). Same source/structure as
+// $coto-color-scheme-light above.
+// ============================================================================
+
+$coto-color-scheme-dark: (
+  // --- Primary ---------------------------------------------------------
+  primary: #ffb4ab,
+  on-primary: #690005,
+  primary-container: #93000a,
+  on-primary-container: #ffdad6,
+  primary-fixed: #ffdad6,
+  primary-fixed-dim: #ffb4ab,
+  on-primary-fixed: #410002,
+  on-primary-fixed-variant: #93000a,
+  inverse-primary: #c41113,
+
+  // --- Secondary ---------------------------------------------------------
+  secondary: #8fcdff,
+  on-secondary: #00344f,
+  secondary-container: #004b71,
+  on-secondary-container: #cbe6ff,
+  secondary-fixed: #cbe6ff,
+  on-secondary-fixed: #001e30,
+  on-secondary-fixed-variant: #004b71,
+  secondary-fixed-dim: #8fcdff,
+
+  // --- Tertiary ---------------------------------------------------------
+  tertiary: #d5bbff,
+  on-tertiary: #41008b,
+  tertiary-container: #5d11b9,
+  on-tertiary-container: #ecdcff,
+  tertiary-fixed: #ecdcff,
+  on-tertiary-fixed: #270058,
+  on-tertiary-fixed-variant: #5d11b9,
+  tertiary-fixed-dim: #d5bbff,
+
+  // --- Error ---------------------------------------------------------
+  error: #ffb5a0,
+  on-error: #5f1500,
+  error-container: #862200,
+  on-error-container: #ffdcd1,
+
+  // --- Surface / Neutral ---------------------------------------------------------
+  surface-dim: #121315,
+  surface: #121315,
+  surface-bright: #32393f,
+  surface-variant: #3b3b3b,
+  surface-container-lowest: #0e0e0e,
+  surface-container-low: #191d20,
+  surface-container: #1c2023,
+  surface-container-high: #262b2f,
+  surface-container-highest: #2f363c,
+  on-surface: #dce3eb,
+  on-surface-variant: #c9c9c9,
+  inverse-surface: #dce3eb,
+  inverse-on-surface: #2a3137,
+
+  // --- Outline ---------------------------------------------------------
+  outline: #939393,
+  outline-variant: #474747,
+
+  // --- Scrim / Shadow (confirmed by Nexo) ---------------------------
+  scrim: #000000,
+  shadow: #000000,
+
+  // --- M3 aliases not explicitly provided by Nexo --------------------
+  // Same convention as light: aliased to surface/on-surface.
+  background: #121315,
+  on-background: #dce3eb,
+) !default;
+
+$coto-state-layers-dark: (
+  primary-08: rgba(255, 180, 171, 0.08),
+  primary-12: rgba(255, 180, 171, 0.12),
+  primary-16: rgba(255, 180, 171, 0.16),
+  on-primary-08: rgba(105, 0, 5, 0.08),
+  on-primary-12: rgba(105, 0, 5, 0.12),
+  on-primary-16: rgba(105, 0, 5, 0.16),
+  secondary-08: rgba(143, 205, 255, 0.08),
+  secondary-12: rgba(143, 205, 255, 0.12),
+  secondary-16: rgba(143, 205, 255, 0.16),
+  on-secondary-08: rgba(0, 52, 79, 0.08),
+  on-secondary-12: rgba(0, 52, 79, 0.12),
+  on-secondary-16: rgba(0, 52, 79, 0.16),
+  tertiary-08: rgba(213, 187, 255, 0.08),
+  tertiary-12: rgba(213, 187, 255, 0.12),
+  tertiary-16: rgba(213, 187, 255, 0.16),
+  on-tertiary-08: rgba(65, 0, 139, 0.08),
+  on-tertiary-12: rgba(65, 0, 139, 0.12),
+  on-tertiary-16: rgba(65, 0, 139, 0.16),
+  on-surface-04: rgba(220, 228, 235, 0.04),
+  on-surface-08: rgba(220, 227, 235, 0.08),
+  on-surface-12: rgba(220, 227, 235, 0.12),
+  on-surface-16: rgba(220, 227, 235, 0.16),
+  on-surface-38: rgba(220, 227, 235, 0.38),
 ) !default;
 
 /// Applies a color scheme (role -> hex map) as overrides of Angular

@@ -45,8 +45,18 @@ export class CotoThemeService {
   }
 
   private readInitialMode(): CotoThemeMode {
-    if (typeof localStorage === 'undefined') return 'light';
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored === 'dark' ? 'dark' : 'light';
+    try {
+      // `typeof localStorage === 'undefined'` alone isn't enough: some
+      // environments (SSR shims, certain test runners) expose a
+      // `localStorage` global that isn't a real Storage implementation
+      // (e.g. missing `getItem`). Guard with try/catch too.
+      if (typeof localStorage === 'undefined' || typeof localStorage.getItem !== 'function') {
+        return 'light';
+      }
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored === 'dark' ? 'dark' : 'light';
+    } catch {
+      return 'light';
+    }
   }
 }
