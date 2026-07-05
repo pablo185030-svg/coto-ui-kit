@@ -1,7 +1,12 @@
-# coto-ui-kit
+<p align="center">
+  <img src="docs/coto-logo.svg" alt="Coto logo" width="200">
+</p>
+
+<h1 align="center">Coto UI Kit</h1>
 
 Angular library (ng-packagr) that centralizes Coto Digital's design
-system (based on the Material Design 3 guidelines documented in Nexo)
+system (based on the Material Design 3 guidelines documented in
+[Nexo](https://zeroheight.com/5afff812d/p/455df7-bienvenidoa-a-nexo))
 for every Angular project (currently Angular 21.1): color palette,
 typography, and theming in one place.
 
