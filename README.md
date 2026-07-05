@@ -5,6 +5,19 @@ system (based on the Material Design 3 guidelines documented in Nexo)
 for every Angular project (currently Angular 21.1): color palette,
 typography, and theming in one place.
 
+
+- [⚠️ Token status](#️-token-status)
+- [Structure](#structure)
+- [How "one place, n projects" works](#how-one-place-n-projects-works)
+- [Local build](#local-build-run-this-on-your-machine---this-sandbox-has-no-npm-access)
+- [Publishing to a private registry](#publishing-to-a-private-registry)
+  - [Alternative while there's no registry yet: `npm link` / `file:` dependency](#alternative-while-theres-no-registry-yet-npm-link--file-dependency)
+- [Consuming the library in an Angular project](#consuming-the-library-in-an-angular-project)
+- [Components](#components)
+  - [`<coto-ui-carousel>`](#coto-ui-carousel)
+  - [`<coto-ui-modal>`](#coto-ui-modal)
+- [Suggested next steps](#suggested-next-steps)
+
 ## ⚠️ Token status
 
 - **Typography**: ✅ complete. Families: Poppins (titles/headlines/
@@ -214,6 +227,54 @@ Behavior: autoplay pauses on hover/focus; `ArrowLeft`/`ArrowRight`
 navigate when the carousel is focused, `Home`/`End` jump to the
 first/last slide; dots use `role="tablist"`/`role="tab"` with
 `aria-selected`.
+
+### `<coto-ui-modal>`
+
+Stackable modal shell with a liquid-glass (glassmorphism) panel.
+Visibility is controlled by the parent via the `open` input — the
+component holds no open/close state of itself — and the parent is
+notified through `closed` (backdrop click or the close button) so it
+can flip that state back to `false`. Content is entirely up to you via
+`<ng-content>`. A shared `ModalStackService` coordinates z-index
+stacking and body-scroll locking, so multiple modals can be opened on
+top of each other (e.g. a confirmation modal launched from within
+another modal) without fighting over the same z-index or unlocking the
+page too early.
+
+```ts
+import { CotoUiModalComponent } from 'coto-ui-kit';
+
+@Component({
+  selector: 'app-example',
+  imports: [CotoUiModalComponent],
+  template: `
+    <button type="button" (click)="isOpen.set(true)">Open modal</button>
+
+    <coto-ui-modal [open]="isOpen()" (closed)="isOpen.set(false)">
+      <h2>Title</h2>
+      <p>Any content goes here.</p>
+    </coto-ui-modal>
+  `,
+})
+export class ExampleComponent {
+  isOpen = signal(false);
+}
+```
+
+Inputs:
+
+| Input                  | Type                                            | Default    | Description                                              |
+| ---------------------- | ------------------------------------------------ | ---------- | ---------------------------------------------------------- |
+| `open`                 | `boolean`                                        | `false`    | Whether the modal is visible. Controlled by the parent.     |
+| `position`             | `'center' \| 'top' \| 'bottom' \| 'left' \| 'right'` | `'center'` | Where the panel is anchored within the viewport.            |
+| `closeOnBackdropClick` | `boolean`                                        | `true`     | Whether clicking the backdrop closes the modal.              |
+| `scrollable`           | `boolean`                                        | `false`    | Whether the panel content scrolls internally instead of locking page scroll. |
+
+Outputs:
+
+| Output   | Payload | Description                                                     |
+| -------- | ------- | ----------------------------------------------------------------- |
+| `closed` | `void`  | Emitted when the modal should close (backdrop click or close button). The parent is responsible for setting `open` back to `false`. |
 
 ## Suggested next steps
 
