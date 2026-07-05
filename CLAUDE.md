@@ -12,11 +12,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 yarn install                 # install deps (yarn 1.22, Node pinned via .nvmrc: 24.16.0)
 yarn build                   # ng build coto-ui-kit -> dist/coto-ui-kit
 yarn build:watch             # incremental build on file changes
+yarn test                    # ng test coto-ui-kit -> Vitest via @angular/build:unit-test
 yarn pack                    # build + npm pack from dist/coto-ui-kit (local tarball)
 yarn publish:lib             # build + npm publish from dist/coto-ui-kit
 ```
 
-There is no test runner, linter, or formatter configured in this repo — don't assume `yarn test`/`yarn lint` exist.
+There is no linter or formatter configured in this repo — don't assume `yarn lint` exists.
+
+### Testing
+
+- Runner: Vitest, wired through Angular's native `@angular/build:unit-test` builder (`projects/coto-ui-kit`'s `test` target in `angular.json`, config in `projects/coto-ui-kit/tsconfig.spec.json`). Spec files live next to the source they test as `*.spec.ts` and are picked up automatically — no per-file registration needed.
+- `describe`/`it`/`expect`/`beforeEach`/`vi`/etc. are global (`types: ["vitest/globals"]` in `tsconfig.spec.json`), so spec files don't need `import { ... } from 'vitest'` for the core API; still import `vi` explicitly when using fake timers or spies.
+- Run the whole suite with `yarn test` (add `-- --watch` for watch mode, or e.g. `npx ng test coto-ui-kit --filter="carousel"` to scope to matching test names while iterating on a single spec).
+- Every exported component in `src/lib/components/` must have a matching `*.spec.ts` covering its public inputs/outputs, DOM output (classes, ARIA attributes, projected content), and user-driven interactions (clicks, keyboard, hover) — see `coto-ui-carousel.component.spec.ts` and `coto-ui-modal.component.spec.ts` for the expected shape (host wrapper component with signal-based inputs, `TestBed.createComponent`, `By.css`/`By.directive` queries).
+- When you add a new component, add its spec in the same PR. When you change a component's behavior (new input, changed DOM structure, new interaction), update its existing spec(s) to match — don't leave assertions describing the old behavior. Run `yarn test` before considering the change done.
+- Effect-driven state (e.g. signals synced via `effect()` in a constructor) may not be reflected synchronously after `fixture.detectChanges()`; use `await fixture.whenStable()` when asserting on it.
 
 ## Architecture
 
@@ -42,3 +52,4 @@ Consuming Angular projects never define their own Material theme: they `@use 'co
 
 - Folders and files must be named in kebab-case (e.g. `coto-ui-carousel/`, `theme.service.ts`).
 - New components go under `src/lib/components/`, follow the carousel's pattern (standalone, `ChangeDetectionStrategy`, signal-based inputs/state, styles driven entirely by `--mat-sys-*` tokens), and must be re-exported from `public-api.ts` to be part of the published package.
+- New components must ship with a `*.spec.ts` (see Testing above); `tsconfig.lib.json` already excludes `**/*.spec.ts` so specs never leak into the published `dist/coto-ui-kit` output.

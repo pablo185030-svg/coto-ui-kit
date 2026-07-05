@@ -10,6 +10,7 @@ typography, and theming in one place.
 - [Structure](#structure)
 - [How "one place, n projects" works](#how-one-place-n-projects-works)
 - [Local build](#local-build-run-this-on-your-machine---this-sandbox-has-no-npm-access)
+- [Tests](#tests)
 - [Publishing to a private registry](#publishing-to-a-private-registry)
   - [Alternative while there's no registry yet: `npm link` / `file:` dependency](#alternative-while-theres-no-registry-yet-npm-link--file-dependency)
 - [Consuming the library in an Angular project](#consuming-the-library-in-an-angular-project)
@@ -94,6 +95,26 @@ yarn build
 # generates dist/coto-ui-kit, ready to publish/consume
 ```
 
+## Tests
+
+Unit tests run on [Vitest](https://vitest.dev), wired through Angular's
+native `@angular/build:unit-test` builder (no Karma/Jasmine). Spec files
+live next to the source they test as `*.spec.ts` — e.g.
+`coto-ui-carousel.component.spec.ts` next to
+`coto-ui-carousel.component.ts` — and are excluded from the published
+package build.
+
+```bash
+yarn test               # run the full suite once
+npx ng test coto-ui-kit -- --watch   # watch mode while iterating
+```
+
+Every exported component has a matching spec covering its inputs/
+outputs, rendered DOM (classes, ARIA attributes), and user interactions
+(clicks, keyboard, hover). When adding a new component, add its spec in
+the same change; when changing a component's behavior, update its spec
+to match.
+
 ## Publishing to a private registry
 
 Configure `.npmrc` (workspace root or project-level) to point to your
@@ -149,10 +170,12 @@ or in the consuming project's `package.json`:
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link
-     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Open+Sans:wght@400&display=swap"
      rel="stylesheet">
    ```
-   Adjust the weights (`wght@...`) to whatever you actually use.
+   These are the exact weights the M3 type scale uses (Poppins 400/600,
+   Open Sans 400); add more (`wght@...`) if your app needs bold/other
+   weights outside the scale.
 2. In `styles.scss` (or the app's global stylesheet):
    ```scss
    @use '@angular/material' as mat;
@@ -282,7 +305,7 @@ Outputs:
   `src/lib/components/`, following the same pattern as the carousel
   (standalone, theme-token-driven styles), and export them from
   `public-api.ts`.
-- Add a CI pipeline that runs `npm run build` on every release and
-  automatically publishes to the private registry.
+- Add a CI pipeline that runs `yarn test` and `npm run build` on every
+  release and automatically publishes to the private registry.
 - Consider adding Storybook to this same repo to visually document the
   tokens and components.
