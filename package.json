@@ -1,9 +1,21 @@
 {
   "name": "coto-ui-kit-workspace",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
+  "main": "dist/coto-ui-kit/fesm2022/coto-ui-kit.mjs",
+  "module": "dist/coto-ui-kit/fesm2022/coto-ui-kit.mjs",
+  "typings": "dist/coto-ui-kit/types/coto-ui-kit.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/coto-ui-kit/types/coto-ui-kit.d.ts",
+      "default": "./dist/coto-ui-kit/fesm2022/coto-ui-kit.mjs"
+    },
+    "./styles": "./dist/coto-ui-kit/styles/_index.scss",
+    "./styles/*": "./dist/coto-ui-kit/styles/*"
+  },
   "packageManager": "yarn@1.22.22",
   "scripts": {
+    "prepare": "yarn build",
     "build": "ng build coto-ui-kit",
     "build:watch": "ng build coto-ui-kit --watch",
     "test": "ng test coto-ui-kit",
@@ -13,22 +25,28 @@
   "devDependencies": {
     "@angular/build": "^22.0.5",
     "@angular/cli": "^22.0.5",
+    "@angular/common": "^22.0.5",
     "@angular/compiler-cli": "^22.0.5",
+    "@angular/core": "^22.0.5",
+    "@angular/material": "^22.0.3",
     "jsdom": "^28.0.0",
     "ng-packagr": "^22.0.1",
+    "rxjs": "~7.8.0",
     "typescript": "~6.0.3",
     "vitest": "^4.0.8"
   },
   "dependencies": {
     "@angular/animations": "^22.0.5",
     "@angular/cdk": "^22.0.3",
-    "@angular/common": "^22.0.5",
     "@angular/compiler": "^22.0.5",
-    "@angular/core": "^22.0.5",
-    "@angular/material": "^22.0.3",
     "@angular/platform-browser": "^22.0.5",
-    "rxjs": "~7.8.0",
     "sass": "^1.77.0",
     "tslib": "^2.6.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^22.0.5",
+    "@angular/core": "^22.0.5",
+    "@angular/material": "^22.0.3",
+    "rxjs": "~7.8.0"
   }
 }
